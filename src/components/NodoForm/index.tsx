@@ -32,6 +32,7 @@ const NodoForm: React.FunctionComponent<NodoFormT> = ({ handleForm }) => {
     setCountNodo(countNodo + 1);
 
     const nodo: NodoT = {
+      livello: 0,
       id: countNodo.toString(),
       descrizione: data.descrizioneNodo,
     };

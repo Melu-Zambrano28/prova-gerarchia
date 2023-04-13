@@ -2,11 +2,23 @@ import { useState } from "react";
 import "./App.css";
 import { Nodo, NodoT } from "./components/Nodo";
 
+type ListNodoT = NodoT & {
+  sottoNodi?: NodoT[];
+};
+
 const App: React.FunctionComponent<{}> = () => {
-  const [listNodo, setListNodo] = useState<NodoT[]>([
+  const [listNodo, setListNodo] = useState<ListNodoT[]>([
     {
+      livello: 0,
       id: "001",
       descrizione: "Root",
+      sottoNodi: [
+        {
+          livello: 0,
+          id: "001-1",
+          descrizione: "Milano",
+        },
+      ],
     },
   ]);
 
@@ -18,13 +30,29 @@ const App: React.FunctionComponent<{}> = () => {
   return (
     <div>
       {listNodo &&
-        listNodo.map((_, index) => (
-          <Nodo
-            key={`Nodo-index${index}`}
-            id={_.id}
-            descrizione={_.descrizione}
-            addNodo={addNewNodo}
-          />
+        listNodo.map((_, nodoIndex) => (
+          <div>
+            <Nodo
+              livello={_.livello}
+              key={`Nodo-index${nodoIndex}`}
+              id={_.id}
+              descrizione={_.descrizione}
+              addNodo={addNewNodo}
+            />
+            <ul>
+              {_.sottoNodi &&
+                _.sottoNodi.map((_, sottoNodoIndex) => (
+                  <li key={`sottoNodo${sottoNodoIndex}`}>
+                    <Nodo
+                      livello={_.livello}
+                      id={_.id}
+                      descrizione={_.descrizione}
+                      addNodo={addNewNodo}
+                    ></Nodo>
+                  </li>
+                ))}
+            </ul>
+          </div>
         ))}
     </div>
   );

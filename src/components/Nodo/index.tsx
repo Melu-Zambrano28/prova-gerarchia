@@ -3,6 +3,7 @@ import { NodoForm } from "../NodoForm";
 import "./index.css";
 
 export type NodoT = {
+  livello: number;
   id: string;
   descrizione: string;
 };
