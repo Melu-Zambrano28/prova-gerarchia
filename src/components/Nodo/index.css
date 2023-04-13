@@ -1,0 +1,17 @@
+.containerColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.margin5px {
+  margin: 5px;
+}
+
+.marginright5px {
+  margin-right: 5px;
+}

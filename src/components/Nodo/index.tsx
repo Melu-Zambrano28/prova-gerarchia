@@ -1,33 +1,43 @@
-import { useState } from 'react'
-import { NodoForm } from '../NodoForm'
+import { useState } from "react";
+import { NodoForm } from "../NodoForm";
+import "./index.css";
 
 export type NodoT = {
-  id: number
-  descrizione: string
-}
+  id: string;
+  descrizione: string;
+};
 
-const Nodo: React.FunctionComponent<NodoT> = ({ id, descrizione }) => {
-  const [sottoNodi, setSottoNodi] = useState<NodoT[]>([])
-  const [showForm, setShowForm] = useState(true)
+type NodoProp = NodoT & {
+  addNodo: (nodo: NodoT) => void;
+};
 
-  const handleForm = () => {
-    setShowForm(false)
-  }
+const Nodo: React.FunctionComponent<NodoProp> = ({
+  id,
+  descrizione,
+  addNodo,
+}) => {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleForm = (nodoCorrente: NodoT) => {
+    setShowForm(false);
+    addNodo(nodoCorrente);
+  };
 
   return (
-    <div>
-      <div>
-        {id} - {descrizione}
-        <ul>
-          {sottoNodi &&
-            sottoNodi.map((_, index) => (
-              <li key={`${index}`}>{`${_.id} - ${_.descrizione}`}</li>
-            ))}
-          {showForm && <NodoForm handleForm={handleForm}></NodoForm>}
-        </ul>
+    <div className="containerColumn">
+      <div className="containerRow margin5px">
+        <div className="marginright5px">
+          <button onClick={() => setShowForm(!showForm)}>
+            {showForm ? "-" : "+"}
+          </button>
+        </div>
+        <div>
+          {id} - {descrizione}
+        </div>
       </div>
+      <div>{showForm && <NodoForm handleForm={handleForm}></NodoForm>}</div>
     </div>
-  )
-}
+  );
+};
 
-export { Nodo }
+export { Nodo };
