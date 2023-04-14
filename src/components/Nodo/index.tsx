@@ -9,19 +9,22 @@ export type NodoT = {
 };
 
 type NodoProp = NodoT & {
-  addNodo: (nodo: NodoT) => void;
+  children: NodoT[];
 };
 
 const Nodo: React.FunctionComponent<NodoProp> = ({
   id,
   descrizione,
-  addNodo,
+  children,
 }) => {
   const [showForm, setShowForm] = useState(false);
+  const [nodoCorrente, setNodoCorrente] = useState<NodoT>();
+  const [nodi, setNodi] = useState<NodoT[]>(children);
 
-  const handleForm = (nodoCorrente: NodoT) => {
+  const handleForm = (nodo: NodoT) => {
     setShowForm(false);
-    addNodo(nodoCorrente);
+    setNodi([...nodi, nodo]);
+    setNodoCorrente(nodo);
   };
 
   return (
@@ -37,6 +40,20 @@ const Nodo: React.FunctionComponent<NodoProp> = ({
         </div>
       </div>
       <div>{showForm && <NodoForm handleForm={handleForm}></NodoForm>}</div>
+      {nodi.length > 0 ? (
+        <ul>
+          {nodi.map((_, index) => (
+            <li key={`sottoNodi${index}`}>
+              <Nodo
+                livello={index}
+                id={_.id}
+                descrizione={_.descrizione}
+                children={[]}
+              ></Nodo>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };
